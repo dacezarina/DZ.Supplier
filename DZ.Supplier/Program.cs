@@ -1,5 +1,7 @@
 ﻿using DZ.SupplierProcessor;
+using DZ.SupplierProcessor.Database;
 using Hangfire;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -17,7 +19,8 @@ services.AddLogging(loggingBuilder =>
     });
 });
 
-// register all services
+services.AddDbContext<SupplierDbContext>(options =>
+    options.UseSqlServer("Server=DESKTOP-NKNU84M\\SQLEXPRESS;Database=dz_supplier_database;Trusted_Connection=True;TrustServerCertificate=True;"));
 services.AddScoped<ISupplierProcessorJob, SupplierProcessorJob>();
 
 var serviceProvider = services.BuildServiceProvider();
@@ -29,6 +32,13 @@ var serviceProvider = services.BuildServiceProvider();
 GlobalConfiguration.Configuration
     .UseInMemoryStorage()
     .UseActivator(new DependencyJobActivator(serviceProvider));
+
+// apply all migrations automotically when application is launched, before job is launched
+using (var scope = serviceProvider.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<SupplierDbContext>();
+    await db.Database.MigrateAsync();
+}
 
 using (var server = new BackgroundJobServer())
 {
