@@ -1,7 +1,9 @@
 ﻿using DZ.SupplierProcessor;
+using DZ.SupplierProcessor.BackgroundJobs;
 using DZ.SupplierProcessor.Database;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -19,8 +21,18 @@ services.AddLogging(loggingBuilder =>
     });
 });
 
+var configuration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json")
+        .Build();
+
+services.AddSingleton<IConfiguration>(configuration);
+
+//TODO: move to configuration
 services.AddDbContext<SupplierDbContext>(options =>
     options.UseSqlServer("Server=DESKTOP-NKNU84M\\SQLEXPRESS;Database=dz_supplier_database;Trusted_Connection=True;TrustServerCertificate=True;"));
+
+services.AddScoped<IFileProcessor, FileProcessor>();
 services.AddScoped<ISupplierProcessorJob, SupplierProcessorJob>();
 
 var serviceProvider = services.BuildServiceProvider();
@@ -33,7 +45,7 @@ GlobalConfiguration.Configuration
     .UseInMemoryStorage()
     .UseActivator(new DependencyJobActivator(serviceProvider));
 
-// apply all migrations automotically when application is launched, before job is launched
+// apply all migrations automotically when application is launched, before jobs are launched
 using (var scope = serviceProvider.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<SupplierDbContext>();
@@ -44,7 +56,7 @@ using (var server = new BackgroundJobServer())
 {
     RecurringJob.AddOrUpdate<ISupplierProcessorJob>(
         nameof(ISupplierProcessorJob),
-        job => job.Run(),
+        job => job.RunAsync(),
         // TODO: move to config files, frequency can be changed if needed
         Cron.Minutely);
 

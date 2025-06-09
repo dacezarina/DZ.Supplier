@@ -1,7 +1,7 @@
 ﻿using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DZ.SupplierProcessor
+namespace DZ.SupplierProcessor.BackgroundJobs
 {
     public class DependencyJobActivator : JobActivator
     {

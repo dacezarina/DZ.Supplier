@@ -1,4 +1,5 @@
 ﻿using DZ.SupplierProcessor;
+using DZ.SupplierProcessor.BackgroundJobs;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -8,7 +9,7 @@ namespace DZ.Supplier.Tests
     public class SupplierProcessorJobTest
     {
         [Test]
-        public async Task RunTest()
+        public async Task RunAsyncSuccessfull()
         {
             var loggerMock = new Mock<ILogger<SupplierProcessorJob>>(MockBehavior.Strict);
 
@@ -36,9 +37,12 @@ namespace DZ.Supplier.Tests
                 It.IsAny<Func<It.IsAnyType, Exception?, string>>()
             ));
 
-            var supplierProcessorJob = new SupplierProcessorJob(loggerMock.Object);
+            var fileProcessorMock = new Mock<IFileProcessor>(MockBehavior.Strict);
+            fileProcessorMock.Setup(x => x.ProcessFile());
 
-            await supplierProcessorJob.Run();
+            var supplierProcessorJob = new SupplierProcessorJob(loggerMock.Object, fileProcessorMock.Object);
+
+            await supplierProcessorJob.RunAsync();
         }
     }
 }
