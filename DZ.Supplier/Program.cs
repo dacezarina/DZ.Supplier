@@ -1,6 +1,6 @@
-﻿using DZ.SupplierProcessor;
-using DZ.SupplierProcessor.BackgroundJobs;
+﻿using DZ.SupplierProcessor.BackgroundJobs;
 using DZ.SupplierProcessor.Database;
+using DZ.SupplierProcessor.FileProcessing;
 using Hangfire;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +33,8 @@ services.AddDbContext<SupplierDbContext>(options =>
     options.UseSqlServer("Server=DESKTOP-NKNU84M\\SQLEXPRESS;Database=dz_supplier_database;Trusted_Connection=True;TrustServerCertificate=True;"));
 
 services.AddScoped<IFileProcessor, FileProcessor>();
+services.AddScoped<IBoxProcessor, BoxProcessor>();
+services.AddScoped<IProductProcessor, ProductProcessor>();
 services.AddScoped<ISupplierProcessorJob, SupplierProcessorJob>();
 
 var serviceProvider = services.BuildServiceProvider();

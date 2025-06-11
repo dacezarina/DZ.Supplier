@@ -1,17 +1,18 @@
-﻿using DZ.SupplierProcessor;
-using DZ.SupplierProcessor.BackgroundJobs;
+﻿using DZ.SupplierProcessor.BackgroundJobs;
+using DZ.SupplierProcessor.Dto;
+using DZ.SupplierProcessor.FileProcessing;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace DZ.Supplier.Tests
+namespace DZ.SupplierProcessor.Tests.BackgroundJobs
 {
     [TestFixture]
     public class SupplierProcessorJobTest
     {
         [Test]
-        public async Task RunAsyncSuccessfull()
+        public async Task RunAsync_Successfull()
         {
-            var loggerMock = new Mock<ILogger<SupplierProcessorJob>>(MockBehavior.Strict);
+            var loggerMock = new Mock<ILogger<SupplierProcessorJob>>();
 
             loggerMock.Setup(x => x.Log(
                 LogLevel.Information,
@@ -38,9 +39,11 @@ namespace DZ.Supplier.Tests
             ));
 
             var fileProcessorMock = new Mock<IFileProcessor>(MockBehavior.Strict);
-            fileProcessorMock.Setup(x => x.ProcessFile());
+            fileProcessorMock.Setup(x => x.ProcessFile()).Returns(It.IsAny<List<Box>>());
 
-            var supplierProcessorJob = new SupplierProcessorJob(loggerMock.Object, fileProcessorMock.Object);
+            var supplierProcessorJob = new SupplierProcessorJob(
+                loggerMock.Object,
+                fileProcessorMock.Object);
 
             await supplierProcessorJob.RunAsync();
         }
