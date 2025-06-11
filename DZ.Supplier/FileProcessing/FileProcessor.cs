@@ -6,7 +6,7 @@ namespace DZ.SupplierProcessor.FileProcessing
 {
     public interface IFileProcessor
     {
-        List<Box> ProcessFile();
+        List<BoxDto> ProcessFile();
     }
 
     public class FileProcessor : IFileProcessor
@@ -18,6 +18,8 @@ namespace DZ.SupplierProcessor.FileProcessing
 
         public const string BOX_LINE = "HDR";
         public const string PRODUCT_LINE = "LINE";
+
+        public const string FILE_NAME = "data.txt";
 
         public FileProcessor(
             ILogger<FileProcessor> logger,
@@ -31,26 +33,26 @@ namespace DZ.SupplierProcessor.FileProcessing
             _productProcessor = productProcessor;
         }
 
-        public List<Box> ProcessFile()
+        public List<BoxDto> ProcessFile()
         {
-            var boxes = new List<Box>();
+            var boxes = new List<BoxDto>();
 
             try
             {
-                if (!File.Exists($"{_configuration["BaseMonitoringDir"]}data.txt"))
+                if (!File.Exists($"{_configuration["BaseMonitoringDir"]}{FILE_NAME}"))
                 {
                     _logger.LogInformation("File not found. Continue monitoring directory for file.");
                     return boxes;
                 }
 
-                using (StreamReader streamReader = new StreamReader($"{_configuration["BaseMonitoringDir"]}data.txt"))
+                using (StreamReader streamReader = new StreamReader($"{_configuration["BaseMonitoringDir"]}{FILE_NAME}"))
                 {
                     string currentLine;
                     // adding line number
                     // in case if something goes wrong
                     // so it can be understand where the issue was
                     int lineNumber = 1;
-                    Box? currentBox = null;
+                    BoxDto? currentBox = null;
                     while (streamReader != null && (currentLine = streamReader.ReadLine()) != null)
                     {
                         if (string.IsNullOrEmpty(currentLine))

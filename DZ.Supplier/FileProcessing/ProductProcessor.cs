@@ -6,7 +6,7 @@ namespace DZ.SupplierProcessor.FileProcessing
 {
     public interface IProductProcessor
     {
-        Product CreateProduct(string productString, int lineNumber);
+        ProductDto CreateProduct(string productString, int lineNumber);
     }
 
     public class ProductProcessor : IProductProcessor
@@ -18,7 +18,7 @@ namespace DZ.SupplierProcessor.FileProcessing
             _logger = logger;
         }
 
-        public Product CreateProduct(string productString, int lineNumber)
+        public ProductDto CreateProduct(string productString, int lineNumber)
         {
             if (string.IsNullOrEmpty(productString))
             {
@@ -35,7 +35,7 @@ namespace DZ.SupplierProcessor.FileProcessing
                 throw new FormatException($"Invalid box format: {productProperties}, lineNumber {lineNumber}");
             }
 
-            return new Product(
+            return new ProductDto(
                 productProperties[1],
                 productProperties[2],
                 productProperties[3]);

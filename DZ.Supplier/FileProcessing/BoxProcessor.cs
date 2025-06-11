@@ -6,7 +6,7 @@ namespace DZ.SupplierProcessor.FileProcessing
 {
     public interface IBoxProcessor
     {
-        Box CreateBox(string boxInputString, int lineNumber);
+        BoxDto CreateBox(string boxInputString, int lineNumber);
     }
 
     public class BoxProcessor : IBoxProcessor
@@ -18,7 +18,7 @@ namespace DZ.SupplierProcessor.FileProcessing
             _logger = logger;
         }
 
-        public Box CreateBox(string boxInputString, int lineNumber)
+        public BoxDto CreateBox(string boxInputString, int lineNumber)
         {
             if (string.IsNullOrEmpty(boxInputString))
             {
@@ -35,7 +35,7 @@ namespace DZ.SupplierProcessor.FileProcessing
                 throw new FormatException($"Invalid box format: {boxInputString}, lineNumber {lineNumber}");
             }
 
-            return new Box(boxProperties[1], boxProperties[2]);
+            return new BoxDto(boxProperties[1], boxProperties[2]);
         }
     }
 }

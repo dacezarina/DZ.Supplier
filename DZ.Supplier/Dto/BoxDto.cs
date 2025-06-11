@@ -1,14 +1,14 @@
 ﻿namespace DZ.SupplierProcessor.Dto
 {
-    public class Box
+    public class BoxDto
     {
-        public Box(string supplierIdentifier, string boxIdentifier)
+        public BoxDto(string supplierIdentifier, string boxIdentifier)
         {
             SupplierIdentifier = supplierIdentifier;
             BoxIdentifier = boxIdentifier;
         }
         public string SupplierIdentifier { get; set; }
         public string BoxIdentifier { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
+        public List<ProductDto> Products { get; set; } = new List<ProductDto>();
     }
 }

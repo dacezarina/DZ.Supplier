@@ -39,7 +39,7 @@ namespace DZ.SupplierProcessor.Tests.BackgroundJobs
             ));
 
             var fileProcessorMock = new Mock<IFileProcessor>(MockBehavior.Strict);
-            fileProcessorMock.Setup(x => x.ProcessFile()).Returns(It.IsAny<List<Box>>());
+            fileProcessorMock.Setup(x => x.ProcessFile()).Returns(It.IsAny<List<BoxDto>>());
 
             var supplierProcessorJob = new SupplierProcessorJob(
                 loggerMock.Object,

@@ -1,8 +1,11 @@
 ﻿namespace DZ.SupplierProcessor.Dto
 {
-    public class Product
+    public class ProductDto
     {
-        public Product(string poNumber, string isbn, string quantity)
+        public ProductDto(
+            string poNumber,
+            string isbn,
+            string quantity)
         {
             PoNumber = poNumber;
             ISBN = isbn;
