@@ -35,6 +35,7 @@ services.AddDbContext<SupplierDbContext>(options =>
 services.AddScoped<IFileProcessor, FileProcessor>();
 services.AddScoped<IBoxProcessor, BoxProcessor>();
 services.AddScoped<IProductProcessor, ProductProcessor>();
+services.AddScoped<IBoxRepository, BoxRepository>();
 services.AddScoped<ISupplierProcessorJob, SupplierProcessorJob>();
 
 var serviceProvider = services.BuildServiceProvider();

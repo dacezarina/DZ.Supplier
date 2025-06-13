@@ -29,7 +29,7 @@ namespace DZ.SupplierProcessor.FileProcessing
             string noSpacesBox = Regex.Replace(boxInputString.TrimEnd(), @"\s+", "-");
             string[] boxProperties = noSpacesBox.Split('-');
 
-            if (boxProperties.Length < 3)
+            if (boxProperties.Length != 3)
             {
                 _logger.LogError($"Invalid box format: {boxInputString}, lineNumber {lineNumber}");
                 throw new FormatException($"Invalid box format: {boxInputString}, lineNumber {lineNumber}");

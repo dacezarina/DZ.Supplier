@@ -84,6 +84,7 @@ namespace DZ.SupplierProcessor.FileProcessing
             // TOTO: catch more specific exceptions
             catch (Exception e)
             {
+                _logger.LogError("Failed to parse file.");
                 _logger.LogError(e.Message);
                 return boxes;
             }

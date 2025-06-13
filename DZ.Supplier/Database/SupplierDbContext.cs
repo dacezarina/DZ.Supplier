@@ -6,10 +6,16 @@ namespace DZ.SupplierProcessor.Database
 {
     public class SupplierDbContext : DbContext
     {
+        public SupplierDbContext()
+        {
+        }
+
         public SupplierDbContext(DbContextOptions<SupplierDbContext> options)
             : base(options)
         {
         }
+
+        public DbSet<Box> Boxes { get; set; }
 
         public DbSet<Content> Contents { get; set; }
 

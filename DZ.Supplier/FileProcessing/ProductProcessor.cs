@@ -29,7 +29,7 @@ namespace DZ.SupplierProcessor.FileProcessing
             string productsWithoutSpaces = Regex.Replace(productString.TrimEnd(), @"\s+", "-");
             string[] productProperties = productsWithoutSpaces.Split('-');
 
-            if (productProperties.Length < 4)
+            if (productProperties.Length != 4)
             {
                 _logger.LogError($"Invalid box format: {productProperties}, lineNumber {lineNumber}");
                 throw new FormatException($"Invalid box format: {productProperties}, lineNumber {lineNumber}");
