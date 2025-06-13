@@ -4,6 +4,7 @@ using DZ.SupplierProcessor.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DZ.SupplierProcessor.Database.Migrations
 {
     [DbContext(typeof(SupplierDbContext))]
-    partial class SupplierDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250611173441_AddedBoxTable")]
+    partial class AddedBoxTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
